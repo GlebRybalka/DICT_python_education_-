@@ -1,8 +1,9 @@
 print ("HANGMAN\nThe game will be available soon")
 
-game_menu = input("""Type "play" to play the game, "exit" to quit:""")
-if game_menu == "play":
-
+game_menu = input("""Type "play" to play the game, "exit" to quit:>""")
+while game_menu == "play":
+    if game_menu == "exit":
+        break
     import random
     words =['python', 'java', 'javascript', 'php']
     random_word = random.choice(words)
@@ -13,7 +14,7 @@ if game_menu == "play":
     while help_word != random_word and try_count >0:
         if game_menu == "exit":
             break
-        answer = input(f"Guess the word\n{help_word}")
+        answer = input(f"Input a letter\n{help_word}:>")
         if answer in guessed:
             print("You've already guessed this letter")
         if answer.isupper() or answer not in alphabet:
@@ -30,8 +31,10 @@ if game_menu == "play":
         else:
             if answer.islower() and answer in alphabet and len(answer) == 1:
                 try_count -= 1
-            print("That letter doesn't appear in the word")
+                if answer not in guessed:
+                    print("That letter doesn't appear in the word")
         guessed.append(answer)
     if help_word == random_word:
         print(f"{help_word}\nYou win!")
     else: print("Thanks for playing!\nWe'll see how well you did in the next stage")
+    game_menu = input("""Type "play" to play the game, "exit" to quit:>""")
