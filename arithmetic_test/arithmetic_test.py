@@ -31,7 +31,6 @@ def save_result_to_file(message):
 user_answer = None
 correct_answer = None
 level_description = None
-print(user_answer, type(user_answer), user_answer == False)
 level = input("Which level do you want? Enter a number:\n"
               "1 - simple operations with numbers 2-9\n"
               "2 - integral squares of 11-29\n>")
@@ -64,4 +63,5 @@ if save_result == 'yes' or save_result == 'Yes' or save_result == 'YES' or save_
     result_message = make_result_message(user_name, right_answer_counter, level, level_description)
     print("The results are saved in 'results.txt'.")
     save_result_to_file(result_message)
-else: sys.exit()
+else:
+    sys.exit()
