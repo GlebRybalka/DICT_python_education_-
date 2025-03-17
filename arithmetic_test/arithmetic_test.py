@@ -31,12 +31,13 @@ def save_result_to_file(message):
 user_answer = None
 correct_answer = None
 level_description = None
-level = input("Which level do you want? Enter a number:\n"
-              "1 - simple operations with numbers 2-9\n"
-              "2 - integral squares of 11-29\n>")
-while level != '1' and level != '2':
+while True:
+    level = input("Which level do you want? Enter a number:\n"
+                  "1 - simple operations with numbers 2-9\n"
+                  "2 - integral squares of 11-29\n>")
+    if level in ('1', '2'):
+        break
     print("Incorrect format.")
-    level = input(">")
 task_counter = 5
 right_answer_counter = 0
 while task_counter > 0:
@@ -46,10 +47,10 @@ while task_counter > 0:
     elif level == '2':
         level_description = "integral squares of 11-29"
         user_answer, correct_answer = random_squaring()
-    while re.match('[a-zA-Z`~!@#$%^&*()+=,./;<>?:]', user_answer) or user_answer == '':
+    while re.search(r"[^0-9-]", user_answer) or user_answer == '':
         print("Incorrect format.")
         user_answer = input(">")
-    else: user_answer_int = int(user_answer)
+    user_answer_int = int(user_answer)
     if user_answer_int == correct_answer:
         right_answer_counter += 1
         print("Right!")
@@ -58,7 +59,7 @@ while task_counter > 0:
     task_counter -= 1
 save_result = input(f"Your mark is {right_answer_counter}/5."
                     f"Would you like to save your result to the file? Enter yes or no.\n>")
-if save_result == 'yes' or save_result == 'Yes' or save_result == 'YES' or save_result == 'y' or save_result == 'Y':
+if save_result in ('YES', 'yes', 'Yes', 'Y', 'y'):
     user_name = input("What is your name?\n>")
     result_message = make_result_message(user_name, right_answer_counter, level, level_description)
     print("The results are saved in 'results.txt'.")
