@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import string
 import os
-
+import re
 
 base_url = input("Input the URL:\n> ")
 HEADERS = {'Accept-Language': 'en-US,en;q=0.5'}
@@ -31,10 +31,14 @@ def get_article_content(url):
 def main():
     pages = int(input('Enter the number of pages to search:\n>'))
     article_type = input('Enter the article type:\n>')
+    cleaned_url = re.sub(r'([&?])page=\d+', '', base_url).rstrip('&?')
     for page in range(1, pages + 1):
+        if '?' in cleaned_url:
+            page_url = f'{cleaned_url}&page={page}'
+        else:
+            page_url = f'{cleaned_url}?page={page}'
         folder_name = f'Page_{page}'
         os.makedirs(folder_name, exist_ok=True)
-        page_url = f'{base_url}&page={page}'
         response = requests.get(page_url, headers=HEADERS)
         soup = BeautifulSoup(response.content, 'html.parser')
         articles = soup.find_all('article')
